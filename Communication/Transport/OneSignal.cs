@@ -175,7 +175,7 @@ namespace Rock.Communication.Transport
                                     var title = ResolveText(communication.PushTitle, currentPerson, communication.EnabledLavaCommands, mergeObjects, publicAppRoot);
                                     var sound = ResolveText( communication.PushSound, currentPerson, communication.EnabledLavaCommands, mergeObjects, publicAppRoot );
                                     var data = ResolveText(communication.PushData, currentPerson, communication.EnabledLavaCommands, mergeFields, publicAppRoot);
-                                    //var jsonData = Newtonsoft.Json.JsonConvert.DeserializeObject<PushData>(data);
+                                    var jsonData = Newtonsoft.Json.JsonConvert.DeserializeObject<PushData>(data);
                                     //var url = jsonData.Url;
                                     string appId = GetAttributeValue("AppId");
                                     string restApiKey = GetAttributeValue("RestAPIKey");
