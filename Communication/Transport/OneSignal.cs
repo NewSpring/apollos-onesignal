@@ -113,12 +113,12 @@ namespace Rock.Communication.Transport
         }
 
         /// <summary>
-        /// Sends the specified communication from the Communication Wizard in Rock.
+        /// Sends the specified communication.
         /// </summary>
         /// <param name="communication">The communication.</param>
         /// <param name="mediumEntityTypeId">The medium entity type identifier.</param>
         /// <param name="mediumAttributes">The medium attributes.</param>
-        /// <exception cref="System.NotImplementedException"></exception> 
+        /// <exception cref="System.NotImplementedException"></exception>
         public override void Send( Model.Communication communication, int mediumEntityTypeId, Dictionary<string, string> mediumAttributes )
         {
             using ( var communicationRockContext = new RockContext() )
@@ -174,9 +174,6 @@ namespace Rock.Communication.Transport
                                     var message = ResolveText(communication.PushMessage, currentPerson, communication.EnabledLavaCommands, mergeObjects, publicAppRoot);
                                     var title = ResolveText(communication.PushTitle, currentPerson, communication.EnabledLavaCommands, mergeObjects, publicAppRoot);
                                     var sound = ResolveText( communication.PushSound, currentPerson, communication.EnabledLavaCommands, mergeObjects, publicAppRoot );
-                                    var data = ResolveText(communication.PushData, currentPerson, communication.EnabledLavaCommands, mergeFields, publicAppRoot);
-                                    var jsonData = Newtonsoft.Json.JsonConvert.DeserializeObject<PushData>(data);
-                                    var url = jsonData.Url;
                                     string appId = GetAttributeValue("AppId");
                                     string restApiKey = GetAttributeValue("RestAPIKey");
                                     OneSignalClient client = new OneSignalClient(restApiKey);
@@ -189,7 +186,6 @@ namespace Rock.Communication.Transport
 
                                     options.Headings.Add(LanguageCodes.English, title);
                                     options.Contents.Add(LanguageCodes.English, message);
-                                    options.Url = url;
                                     NotificationCreateResult response = client.Notifications.Create(options);
 
                                     bool failed = !string.IsNullOrWhiteSpace(response.Error);
@@ -198,7 +194,7 @@ namespace Rock.Communication.Transport
 
                                     if (failed)
                                     {
-                                        recipient.StatusNote = "OneSignal failed to notify devices";
+                                        recipient.StatusNote = "Firebase failed to notify devices";
                                     }
                                     else
                                     {
@@ -263,7 +259,6 @@ namespace Rock.Communication.Transport
             string title = ResolveText( pushMessage.Title, pushMessage.CurrentPerson, pushMessage.EnabledLavaCommands, mergeFields, pushMessage.AppRoot, pushMessage.ThemeRoot );
             string sound = ResolveText( pushMessage.Sound, pushMessage.CurrentPerson, pushMessage.EnabledLavaCommands, mergeFields, pushMessage.AppRoot, pushMessage.ThemeRoot );
             string message = ResolveText( pushMessage.Message, pushMessage.CurrentPerson, pushMessage.EnabledLavaCommands, mergeFields, pushMessage.AppRoot, pushMessage.ThemeRoot );
-            string url = ResolveText(pushMessage.Data.Url, pushMessage.CurrentPerson, pushMessage.EnabledLavaCommands, mergeFields, pushMessage.AppRoot, pushMessage.ThemeRoot);
             string appId = GetAttributeValue( "AppId" );
             string restApiKey = GetAttributeValue( "RestAPIKey" );
             OneSignalClient client = new OneSignalClient( restApiKey );
@@ -276,7 +271,6 @@ namespace Rock.Communication.Transport
 
             options.Headings.Add(LanguageCodes.English, title );
             options.Contents.Add(LanguageCodes.English, message );
-            options.Url = url;
             client.Notifications.Create(options );
 
         }
