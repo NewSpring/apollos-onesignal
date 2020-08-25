@@ -113,7 +113,7 @@ namespace Rock.Communication.Transport
         }
 
         /// <summary>
-        /// Sends the specified communication.
+        /// Sends the specified communication from the Communication Wizard in Rock.
         /// </summary>
         /// <param name="communication">The communication.</param>
         /// <param name="mediumEntityTypeId">The medium entity type identifier.</param>
@@ -194,7 +194,7 @@ namespace Rock.Communication.Transport
 
                                     if (failed)
                                     {
-                                        recipient.StatusNote = "Firebase failed to notify devices";
+                                        recipient.StatusNote = "OneSignal failed to notify devices";
                                     }
                                     else
                                     {
@@ -259,6 +259,7 @@ namespace Rock.Communication.Transport
             string title = ResolveText( pushMessage.Title, pushMessage.CurrentPerson, pushMessage.EnabledLavaCommands, mergeFields, pushMessage.AppRoot, pushMessage.ThemeRoot );
             string sound = ResolveText( pushMessage.Sound, pushMessage.CurrentPerson, pushMessage.EnabledLavaCommands, mergeFields, pushMessage.AppRoot, pushMessage.ThemeRoot );
             string message = ResolveText( pushMessage.Message, pushMessage.CurrentPerson, pushMessage.EnabledLavaCommands, mergeFields, pushMessage.AppRoot, pushMessage.ThemeRoot );
+            string url = ResolveText(pushMessage.Data.Url, pushMessage.CurrentPerson, pushMessage.EnabledLavaCommands, mergeFields, pushMessage.AppRoot, pushMessage.ThemeRoot);
             string appId = GetAttributeValue( "AppId" );
             string restApiKey = GetAttributeValue( "RestAPIKey" );
             OneSignalClient client = new OneSignalClient( restApiKey );
@@ -271,6 +272,7 @@ namespace Rock.Communication.Transport
 
             options.Headings.Add(LanguageCodes.English, title );
             options.Contents.Add(LanguageCodes.English, message );
+            options.Url = url;
             client.Notifications.Create(options );
 
         }
