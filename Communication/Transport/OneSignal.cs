@@ -176,7 +176,7 @@ namespace Rock.Communication.Transport
                                     var sound = ResolveText( communication.PushSound, currentPerson, communication.EnabledLavaCommands, mergeObjects, publicAppRoot );
                                     var data = ResolveText(communication.PushData, currentPerson, communication.EnabledLavaCommands, mergeFields, publicAppRoot);
                                     var jsonData = Newtonsoft.Json.JsonConvert.DeserializeObject<PushData>(data);
-                                    //var url = jsonData.Url;
+                                    var url = jsonData.Url;
                                     string appId = GetAttributeValue("AppId");
                                     string restApiKey = GetAttributeValue("RestAPIKey");
                                     OneSignalClient client = new OneSignalClient(restApiKey);
@@ -189,7 +189,7 @@ namespace Rock.Communication.Transport
 
                                     options.Headings.Add(LanguageCodes.English, title);
                                     options.Contents.Add(LanguageCodes.English, message);
-                                    //options.Url = url; 
+                                    options.Url = url; 
                                     NotificationCreateResult response = client.Notifications.Create(options);
 
                                     bool failed = !string.IsNullOrWhiteSpace(response.Error);
