@@ -28,6 +28,8 @@ F:\apollos-onesignal\bin\apollosProject.OneSignal.dll.config
 F:\apollos-onesignal\bin\apollosProject.OneSignal.dll
 F:\apollos-onesignal\bin\apollosProject.OneSignal.pdb
 F:\apollos-onesignal\bin\Apollos.OneSignal.RestAPIv3.Client.dll
+F:\apollos-onesignal\bin\Newtonsoft.Json.dll
+F:\apollos-onesignal\bin\Newtonsoft.Json.xml
 F:\apollos-onesignal\obj\Debug\apollosProject.OneSignal.csprojAssemblyReference.cache
 F:\apollos-onesignal\obj\Debug\apollosProject.OneSignal.csproj.CoreCompileInputs.cache
 F:\apollos-onesignal\obj\Debug\apollosProject.OneSignal.csproj.CopyComplete
